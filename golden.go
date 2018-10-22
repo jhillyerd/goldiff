@@ -62,8 +62,8 @@ func diff(before, after []string) []section {
 	return r
 }
 
-// DiffStrings does a entry by entry comparison of got and want.
-func DiffStrings(t *testing.T, got []string, want []string) {
+// Strings does a entry by entry comparison of got and want.
+func Strings(t *testing.T, got []string, want []string) {
 	t.Helper()
 	if len(got) == 0 && len(want) == 0 {
 		return
@@ -92,8 +92,8 @@ func DiffStrings(t *testing.T, got []string, want []string) {
 	}
 }
 
-// DiffLines does a line by line comparison of got and want.
-func DiffLines(t *testing.T, got []byte, want []byte) {
+// Lines does a line by line comparison of got and want.
+func Lines(t *testing.T, got []byte, want []byte) {
 	t.Helper()
 	if !bytes.Equal(got, want) {
 		b := bytes.NewBufferString("diff -want +got:\n")
@@ -120,9 +120,9 @@ func DiffLines(t *testing.T, got []byte, want []byte) {
 	}
 }
 
-// DiffGolden does a line by comparison of got to the golden file specified by path. If the update
+// File does a line by comparison of got to the golden file specified by path. If the update
 // flag is true, differing golden files will be updated with lines in got.
-func DiffGolden(t *testing.T, got []byte, path ...string) {
+func File(t *testing.T, got []byte, path ...string) {
 	t.Helper()
 	pathstr := filepath.Join(path...)
 	f, err := os.Open(pathstr)
@@ -142,7 +142,7 @@ func DiffGolden(t *testing.T, got []byte, path ...string) {
 		} else {
 			t.Errorf("Test output did not match %s\nTo update golden file, run: go test -update", pathstr)
 			// Fail test with differences
-			DiffLines(t, got, golden)
+			Lines(t, got, golden)
 		}
 	}
 }
